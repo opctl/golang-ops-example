@@ -8,7 +8,7 @@ run:
   container:
     image: { ref: 'golang:1.10.3' }
     dirs:
-      /go: $(srcDir)
+      /go: $(srcDir/vendor)
     cmd:
     - sh
     - -ce

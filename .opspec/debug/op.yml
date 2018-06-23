@@ -25,9 +25,7 @@ run:
         image: { ref: 'golang:1.10.3' }
         name: go-svc
         dirs:
-          /go/src: $(srcDir/src)
-          /go/pkg: $(srcDir/pkg)
-          /go/bin: $(srcDir/bin)
+          /go: $(srcDir/vendor)
           /go/src/go-srv: $(srcDir/app)
         envVars: {MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE}
         workDir: /go/src/go-srv
