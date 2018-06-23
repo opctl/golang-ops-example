@@ -1,5 +1,5 @@
-name: debug
-description: runs go-svc for debugging
+name: dev
+description: runs go-svc for development
 inputs:
   srcDir:
     dir:
