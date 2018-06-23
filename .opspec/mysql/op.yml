@@ -1,5 +1,5 @@
 name: mysql
-description: runs a mysql container
+description: runs a mysql container, optionally seeding it with sample data
 inputs:
   srcDir:
     dir:
@@ -7,18 +7,22 @@ inputs:
   MYSQL_USER:
     string:
       default: testuser
+      description: username for MySQL user to create
   MYSQL_PASSWORD:
     string:
       default: testpassword
+      description: password for MySQL user to create
   MYSQL_DATABASE:
     string:
       default: testapp
+      description: Database to create
   MYSQL_HOST:
     string:
       default: mysql
   doSeed:
     boolean:
       default: false
+      description: if true, sample data will be inserted in the database
 run:
   parallel:
     - container:
@@ -37,10 +41,10 @@ run:
           - -ce
           - |
             echo "starting seed script"
-            sleep 25
+            sleep 25 # we'll sleep while the MySQL DB starts
             if [ $doSeed = "true" ]
             then
-              echo "connecting"
+              echo "connecting to load sql script"
               mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST $MYSQL_DATABASE < /db/seed.sql
             fi
             exit 0
