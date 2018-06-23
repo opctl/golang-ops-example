@@ -1,9 +1,6 @@
 name: mysql
 description: runs a mysql container, optionally seeding it with sample data
 inputs:
-  srcDir:
-    dir:
-      default: .
   MYSQL_USER:
     string:
       default: testuser
@@ -33,8 +30,8 @@ run:
     - container:
         image: { ref: 'mysql:8' }
         envVars: {MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE, doSeed}
-        dirs:
-          /db: $(srcDir/.opspec/mysql)
+        files:
+          /seed.sql: # this shorthand form will copy seed.sql from the root of this op to the root of the container
         workDir: /db
         cmd: 
           - sh
@@ -45,6 +42,6 @@ run:
             if [ $doSeed = "true" ]
             then
               echo "connecting to load sql script"
-              mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST $MYSQL_DATABASE < /db/seed.sql
+              mysql -u $MYSQL_USER -p$MYSQL_PASSWORD -h $MYSQL_HOST $MYSQL_DATABASE < /seed.sql
             fi
             exit 0

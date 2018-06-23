@@ -22,8 +22,8 @@ inputs:
 run:
   parallel:
     - op:
-        ref: ../mysql
-        inputs: { srcDir, MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE, doSeed: true} # we pass the relevant inputs through to the mysql op
+        ref: ../mysql # we reference the mysql op using its relative path to this op
+        inputs: { MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE, doSeed: true} # we pass the relevant inputs through to the mysql op
     - serial:
       - op:
           ref: ../init

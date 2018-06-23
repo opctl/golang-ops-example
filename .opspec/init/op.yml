@@ -3,7 +3,7 @@ description: initializes go-svc, getting its dependencies
 inputs:
   srcDir:
     dir:
-      default: ./
+      default: ./ # input defaults for dirs are relative to where the op runs from, not where it's located, therefore this will refer to the project root if that's where we run opctl from
 run:
   container:
     image: { ref: 'golang:1.10.3' }
