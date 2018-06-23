@@ -1,0 +1,17 @@
+name: init
+description: initializes go-svc, getting its dependencies
+inputs:
+  srcDir:
+    dir:
+      default: ./
+run:
+  container:
+    image: { ref: 'golang:1.10.3' }
+    dirs:
+      /go: $(srcDir)
+    cmd:
+    - sh
+    - -ce
+    - |
+      go get -u github.com/cespare/reflex
+      go get -u github.com/go-sql-driver/mysql
