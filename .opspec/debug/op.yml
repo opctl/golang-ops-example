@@ -21,18 +21,22 @@ run:
     - op:
         ref: ../mysql
         inputs: { srcDir, MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE, doSeed: true}
-    - container:
-        image: { ref: 'golang:1.10.3' }
-        name: go-svc
-        dirs:
-          /go: $(srcDir/vendor)
-          /go/src/go-srv: $(srcDir/app)
-        envVars: {MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE}
-        workDir: /go/src/go-srv
-        ports: { '8080': '8080' }
-        cmd:
-          - sh
-          - -ce
-          - |
-            sleep 30
-            /go/bin/reflex -g 'main.go' -s -- sh -c 'go run main.go'
+    - serial:
+      - op:
+          ref: ../init
+          inputs: { srcDir }
+      - container:
+          image: { ref: 'golang:1.10.3' }
+          name: go-svc
+          dirs:
+            /go: $(srcDir/vendor)
+            /go/src/go-srv: $(srcDir/app)
+          envVars: {MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE}
+          workDir: /go/src/go-srv
+          ports: { '8080': '8080' }
+          cmd:
+            - sh
+            - -ce
+            - |
+              sleep 30
+              /go/bin/reflex -g 'main.go' -s -- sh -c 'go run main.go'
