@@ -1,10 +1,10 @@
 name: dev
 description: runs go-svc for development
 inputs:
-  srcDir:
-    dir:
-      default: ./
-      description: project source code location
+  # srcDir:
+  #   dir:
+  #     default: ./
+  #     description: project source code location
   MYSQL_USER:
     string:
       default: testuser
@@ -28,13 +28,13 @@ run:
     - serial:
       - op:
           ref: ../init
-          inputs: { srcDir }
+          inputs: { srcDir: $(/app) }
       - container:
           image: { ref: 'golang:1.10.3' }
           name: go-svc
           dirs:
-            /go: $(srcDir/vendor)
-            /go/src/go-srv: $(srcDir/app)
+            /go: $(/app/go)
+            /go/src/go-srv: $(/app)
           envVars: {MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE} # the same inputs are needed to let our code know how to connect to the DB
           workDir: /go/src/go-srv
           ports: { '8080': '8080' }
