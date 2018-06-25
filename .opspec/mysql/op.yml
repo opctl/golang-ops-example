@@ -32,7 +32,6 @@ run:
         envVars: {MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DATABASE, doSeed}
         files:
           /seed.sql: # this shorthand form will copy seed.sql from the root of this op to the root of the container
-        workDir: /db
         cmd: 
           - sh
           - -ce
