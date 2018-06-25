@@ -4,6 +4,7 @@ inputs:
   srcDir:
     dir:
       default: ./
+      description: project source code location
   MYSQL_USER:
     string:
       default: testuser
